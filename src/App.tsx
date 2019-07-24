@@ -1,19 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import axios, { AxiosResponse } from 'axios';
 import './App.scss';
 
+import { Sidebar } from './components/Sidebar/Sidebar.component';
+import { SkiMap } from './components/SkiMap/SkiMap.component';
+
+import { Mountain } from './types';
+
 const App: React.FC = () => {
+  const [mountains, setMountains] = useState<Mountain[]>([]);
+
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_HOST}/mountains/operating`).then((response: AxiosResponse) => {
+      const mountains = response.data;
+      setMountains(mountains);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+      <div className="Sidebar">
+        <Sidebar mountains={mountains} />
+      </div>
+      <div className="SkiMap">
+        <SkiMap mountains={mountains} />
+      </div>
     </div>
   );
 };

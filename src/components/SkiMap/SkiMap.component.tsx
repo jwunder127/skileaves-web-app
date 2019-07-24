@@ -1,5 +1,10 @@
 import React from 'react';
+import { Mountain } from '../../types';
 
-export const SkiMap: React.FC = () => {
+interface SkiMapProps {
+  mountains: Mountain[];
+}
+
+export const SkiMap: React.FC<SkiMapProps> = () => {
   return <div>This is the ski map</div>;
 };
